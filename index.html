@@ -1,0 +1,398 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Simon Viguié Photographies</title>
+<meta name="description" content="Simon Viguié, photographies de rue : Marseille, Saintes-Maries-de-la-Mer, Wimereux, Maroc, Londres.">
+<meta property="og:title" content="Simon Viguié Photographies">
+<meta property="og:image" content="photos/marseille/06.jpg">
+<style>*,*::before,*::after{box-sizing:border-box}html,body{margin:0}img{max-width:100%}[hidden]{display:none!important}:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}</style>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Arimo:ital,wght@0,400..700;1,400..700&family=Newsreader:ital,opsz,wght@0,6..72,300..800;1,6..72,300..800&display=swap">
+<style>
+/* Layout : une colonne d'images plein cadre par série, index de séries en planche, navigation par ancres (#accueil = diaporama, #series, #serie-…, #tirages, #apropos, #contact). Accueil et bandeau sur fond blanc, onglets sur fond noir. */
+:root{
+  --bg:#ffffff;          /* fond blanc, comme un mur de galerie */
+  --surface:#f1f0ed;
+  --line:#e2e0db;
+  --fg:#151514;
+  --muted:#77746d;
+  --accent:#a8741c;      /* ambre, lumière de lampadaire au sodium */
+  --display:"Newsreader", Georgia, "Times New Roman", serif;
+  --body:"Newsreader", Georgia, "Times New Roman", serif;
+  --mono:"Arimo", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  color-scheme:light;
+}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--fg);font-family:var(--body);font-size:18px;line-height:1.6;margin:0;-webkit-font-smoothing:antialiased}
+a{color:inherit}
+:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
+.wrap{max-width:1280px;margin:0 auto;padding-inline:clamp(16px,4vw,48px)}
+
+.draft{font-family:var(--mono);font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:#fff;background:var(--accent);text-align:center;padding:6px 16px}
+
+header.site{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:var(--bg);border-bottom:1px solid var(--line)}
+header.site .wrap{display:flex;align-items:center;justify-content:space-between;gap:16px;padding-block:18px;flex-wrap:wrap}
+.brand{font-family:var(--mono);font-weight:700;font-size:20px;letter-spacing:.04em;text-transform:uppercase;text-decoration:none;line-height:1}
+.brand small{display:block;font-family:var(--mono);font-size:10px;font-weight:400;letter-spacing:.2em;color:var(--muted);margin-top:6px}
+nav.main{display:flex;gap:clamp(14px,2.4vw,32px);flex-wrap:wrap}
+nav.main a{font-family:var(--mono);font-size:12px;letter-spacing:.12em;text-transform:uppercase;text-decoration:none;color:var(--muted);padding-block:4px;border-bottom:1px solid transparent;transition:color .2s}
+nav.main a:hover{color:var(--fg)}
+nav.main a[aria-current="page"]{color:var(--fg);border-color:var(--accent)}
+
+main{min-height:60vh}
+
+/* Accueil : diaporama plein écran sous le bandeau */
+body.home .draft, body.home footer{display:none}
+body.home{overflow:hidden}
+body.home main.wrap{max-width:none;padding-inline:0}
+.slideshow{position:relative;height:calc(100vh - var(--hdr,70px));height:calc(100dvh - var(--hdr,70px));background:var(--bg);overflow:hidden}
+.slide{position:absolute;inset:0;margin:0;padding:clamp(12px,3vw,40px);display:flex;align-items:center;justify-content:center;opacity:0;transition:opacity 1.4s ease}
+.slide.on{opacity:1}
+.slide img{display:block;max-width:100%;max-height:100%;width:auto;height:auto;object-fit:contain}
+.ss-zone{position:absolute;top:0;bottom:0;width:50%;background:none;border:0;padding:0;z-index:2}
+.ss-zone.prev{left:0;cursor:w-resize}
+.ss-zone.next{right:0;cursor:e-resize}
+.view{padding-block:clamp(32px,6vw,72px)}
+
+/* Accueil */
+.intro{max-width:none;font-size:clamp(16px,1.4vw,18px);line-height:1.55;font-weight:400;margin:0 0 clamp(36px,6vw,64px)}
+.intro em{color:var(--accent);font-style:italic}
+.index{display:grid;grid-template-columns:1fr;gap:clamp(20px,3vw,40px)}
+.card{position:relative;display:block;text-decoration:none;overflow:hidden}
+.card .ph{aspect-ratio:3/2!important;max-height:calc(100vh - 160px);width:100%}
+.card .ph img{transition:transform 1.2s ease,filter .4s}
+.card:hover .ph img{transform:scale(1.025);filter:brightness(1.05)}
+.card::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(15,15,14,.38) 0%,rgba(15,15,14,.42) 55%,rgba(15,15,14,.68) 100%);pointer-events:none;transition:opacity .6s ease}
+.card:hover::after,.card:focus-visible::after{opacity:.35}
+.card h2{position:absolute;left:clamp(18px,3vw,44px);right:clamp(18px,3vw,44px);bottom:clamp(16px,3vw,40px);z-index:2;margin:0;font-family:var(--display);font-weight:700;font-size:clamp(28px,4.6vw,64px);line-height:1.05;letter-spacing:-.02em;color:rgba(255,255,255,.92);text-shadow:0 2px 24px rgba(0,0,0,.35);text-wrap:balance}
+
+/* Placeholders photo */
+.ph{position:relative;width:100%;max-width:100%;background:var(--surface);overflow:hidden}
+.ph::after{content:"";position:absolute;inset:0;background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/></filter><rect width='100%' height='100%' filter='url(%23n)' opacity='.35'/></svg>");mix-blend-mode:overlay;opacity:.5;pointer-events:none}
+.ph .tag{position:absolute;left:12px;bottom:10px;font-family:var(--mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:rgba(233,230,223,.55);z-index:1}
+.ph img{display:block;width:100%;height:100%;object-fit:cover}
+.ph.real{background:var(--surface)}
+.ph.real::after{display:none}
+.lb-stage img{display:block;max-width:100%;max-height:100%;width:auto;height:auto;object-fit:contain}
+.series-head.solo{grid-template-columns:1fr}
+
+/* Série */
+.back{font-family:var(--mono);font-size:12px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);text-decoration:none}
+.back:hover{color:var(--fg)}
+.series-head{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:clamp(20px,4vw,64px);align-items:end;margin:28px 0 clamp(40px,6vw,72px)}
+.series-head h1{font-family:var(--display);font-weight:300;font-size:clamp(42px,6.6vw,92px);line-height:1;letter-spacing:-.02em;margin:0;text-wrap:balance}
+.series-head .facts{font-family:var(--mono);font-size:12px;color:var(--muted);letter-spacing:.06em;margin:18px 0 0;display:flex;gap:8px 20px;flex-wrap:wrap}
+.series-head .text{max-width:60ch;margin:0;font-size:17px}
+.plates{display:flex;flex-direction:column;gap:clamp(48px,8vw,110px)}
+.plate{margin:0;display:flex;flex-direction:column;gap:12px;cursor:zoom-in}
+.plate.portrait{max-width:min(100%,640px)}
+.plate.portrait.right{align-self:flex-end}
+.plate.square{max-width:min(100%,820px);align-self:center}
+.plate figcaption{display:flex;justify-content:space-between;gap:8px 24px;flex-wrap:wrap;font-family:var(--mono);font-size:11px;letter-spacing:.06em;color:var(--muted)}
+.plate figcaption .n{color:var(--accent)}
+.plate figcaption.num{font-size:15px;font-weight:700;letter-spacing:.04em;color:var(--accent)}
+.series-nav{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;margin-top:clamp(64px,10vw,120px);padding-top:24px;border-top:1px solid var(--line)}
+.series-nav a{font-family:var(--display);font-size:22px;font-weight:400;text-decoration:none}
+.series-nav a span{display:block;font-family:var(--mono);font-size:11px;color:var(--muted);letter-spacing:.1em}
+.series-nav a:hover{color:var(--accent)}
+
+/* Pages texte */
+.page-title{font-family:var(--display);font-weight:300;font-size:clamp(42px,6.6vw,84px);line-height:1;letter-spacing:-.02em;margin:0 0 clamp(32px,5vw,56px)}
+.two{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,7fr);gap:clamp(28px,5vw,72px);align-items:start}
+.prose{max-width:62ch}
+.prose p{margin:0 0 1em}
+.prose .lead{font-size:clamp(22px,2.3vw,27px);font-weight:300;line-height:1.45}
+.label{font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin:0 0 10px}
+.todo{color:var(--accent);font-family:var(--mono);font-size:12px;letter-spacing:.04em}
+
+.prints{display:grid;grid-template-columns:1fr;align-items:start;row-gap:clamp(56px,8vw,110px)!important;gap:clamp(24px,3vw,40px)}
+.print{display:flex;flex-direction:column;gap:12px}
+.print{margin:0}
+.print.portrait{width:min(100%,760px);justify-self:center}
+.print figcaption{display:flex;justify-content:space-between;align-items:baseline;flex-wrap:wrap;gap:4px 24px;margin-top:14px}
+.print h3{font-family:var(--display);font-weight:400;font-size:22px;margin:0}
+.print .pspec{flex-basis:100%;font-family:var(--mono);font-style:italic;font-size:13px;letter-spacing:.02em;color:var(--fg)}
+.print .price{flex-basis:100%;font-family:var(--mono);font-weight:700;font-size:17px;color:var(--fg);margin-top:2px}
+.print .ref{font-family:var(--mono);font-size:12px;letter-spacing:.04em;color:var(--muted)}
+.formats{margin-top:clamp(48px,7vw,80px);overflow-x:auto}
+.formats .spec{min-width:560px}
+.formats .spec thead td{color:var(--muted);text-transform:uppercase;letter-spacing:.08em;font-size:11px;border-top:0}
+.formats .spec td{padding:10px 12px 10px 0;text-align:left!important;color:var(--fg)}
+.formats .spec tbody td:first-child{font-weight:700}
+.spec{width:100%;border-collapse:collapse;font-family:var(--mono);font-size:12px;font-variant-numeric:tabular-nums}
+.spec td{padding:7px 0;border-top:1px solid var(--line);color:var(--muted)}
+.spec td:last-child{text-align:right;color:var(--fg)}
+.note{margin-top:clamp(40px,6vw,64px);padding:24px;border:1px solid var(--line);max-width:70ch;font-size:16px}
+
+.contact-lines{display:flex;flex-direction:column;gap:28px}
+.cline{display:flex;flex-direction:column;gap:6px}
+.cline .val{font-family:var(--display);font-weight:300;font-size:clamp(24px,3.2vw,38px);word-break:break-word}
+.copy{align-self:flex-start;font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;background:none;color:var(--muted);border:1px solid var(--line);padding:7px 12px;cursor:pointer}
+.copy:hover{color:var(--fg);border-color:var(--muted)}
+
+footer{border-top:1px solid var(--line);margin-top:24px}
+footer .wrap{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;padding-block:24px;font-family:var(--mono);font-size:11px;color:var(--muted);letter-spacing:.06em}
+
+/* Visionneuse */
+[hidden]{display:none!important}
+.lb{position:fixed;inset:0;z-index:50;background:var(--bg);display:flex;flex-direction:column;padding:calc(16px + env(safe-area-inset-top,0px)) 16px calc(16px + env(safe-area-inset-bottom,0px))}
+.lb-bar{display:flex;justify-content:space-between;align-items:center;gap:12px;font-family:var(--mono);font-size:11px;color:var(--muted);letter-spacing:.08em}
+.lb-stage{flex:1;display:flex;align-items:center;justify-content:center;min-height:0;padding-block:16px}
+.lb-stage .ph{max-height:100%;width:auto;height:100%;max-width:100%}
+.lb button{background:none;border:1px solid var(--line);color:var(--fg);font-family:var(--mono);font-size:12px;letter-spacing:.1em;padding:8px 14px;cursor:pointer}
+.lb button:hover{border-color:var(--muted)}
+.lb-nav{display:flex;justify-content:center;gap:12px}
+
+@media (max-width:760px){
+  .series-head,.two{grid-template-columns:1fr}
+  .plate.portrait,.plate.square{max-width:100%}
+  body{font-size:16px}
+}
+/* Tirages : photo présentée avec un passe-partout blanc, comme un tirage encadré */
+:root{--mat:#ffffff}
+.print .ph.real{padding:clamp(20px,4vw,64px);background:var(--mat);aspect-ratio:auto!important;border:1px solid var(--line);box-shadow:0 12px 28px rgba(20,20,18,.14)}
+.print .ph.real img{height:auto}
+/* Accueil sur fond blanc ; dès qu'on entre dans un onglet, le contenu passe sur fond noir et le bandeau reste blanc */
+body:not(.home){background:#0f0f0e}
+body:not(.home) main, body:not(.home) footer, body:not(.home) .lb{
+  --bg:#0f0f0e; --surface:#181816; --line:#2a2a27; --fg:#e9e6df; --muted:#8d8a82; --accent:#d6a24e;
+  --mat:#f4f2ee; background:var(--bg); color:var(--fg); color-scheme:dark;
+}
+body:not(.home) .print .ph.real{border:0;box-shadow:0 10px 30px rgba(0,0,0,.45)}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+
+
+
+<header class="site">
+  <div class="wrap">
+    <a class="brand" href="#accueil">Simon Viguié<small>Photographies</small></a>
+    <nav class="main" aria-label="Navigation principale">
+      <a href="#apropos" data-nav="apropos">À propos</a>
+      <a href="#series" data-nav="series">Séries</a>
+      <a href="#tirages" data-nav="tirages">Tirages</a>
+      <a href="#contact" data-nav="contact">Contact</a>
+    </nav>
+  </div>
+</header>
+
+<main id="app" class="wrap" tabindex="-1"></main>
+
+<footer><div class="wrap"><span>© 2026 Simon Viguié</span><span>Marseille</span></div></footer>
+
+<div class="lb" id="lb" hidden role="dialog" aria-modal="true" aria-label="Visionneuse">
+  <div class="lb-bar"><span id="lb-cap"></span><button id="lb-close" type="button">Fermer ✕</button></div>
+  <div class="lb-stage" id="lb-stage"></div>
+  <div class="lb-nav"><button id="lb-prev" type="button">← Préc.</button><button id="lb-next" type="button">Suiv. →</button></div>
+</div>
+
+<script>
+/* ——— Contenu du site : c'est ici qu'on remplacera les exemples par tes vraies séries ——— */
+const SERIES = [
+  { id:"marseille", title:"Marseille", place:"Marseille", years:"2025–2026", blurb:"", text:"",
+    photos:[{"src": "photos/marseille/01.jpg", "w": 2560, "h": 1707, "exif": ""}, {"src": "photos/marseille/02.jpg", "w": 2560, "h": 1653, "exif": ""}, {"src": "photos/marseille/03.jpg", "w": 2560, "h": 1707, "exif": ""}, {"src": "photos/marseille/04.jpg", "w": 2560, "h": 1707, "exif": ""}, {"src": "photos/marseille/05.jpg", "w": 2048, "h": 2560, "exif": ""}, {"src": "photos/marseille/06.jpg", "w": 2560, "h": 1707, "exif": ""}, {"src": "photos/marseille/07.jpg", "w": 2560, "h": 1708, "exif": ""}, {"src": "photos/marseille/08.jpg", "w": 2560, "h": 1706, "exif": ""}, {"src": "photos/marseille/09.jpg", "w": 2560, "h": 1708, "exif": ""}, {"src": "photos/marseille/10.jpg", "w": 2560, "h": 1708, "exif": ""}] },
+  { id:"saintes-maries", title:"Pèlerinage aux Saintes-Maries-de-la-Mer", place:"Saintes-Maries-de-la-Mer", years:"Mai 2026", blurb:"", text:"",
+    photos:[{"src": "photos/saintes-maries/08.jpg", "w": 2560, "h": 1708, "exif": ""}, {"src": "photos/saintes-maries/04.jpg", "w": 2560, "h": 1707, "exif": ""}, {"src": "photos/saintes-maries/07.jpg", "w": 2560, "h": 1707, "exif": ""}, {"src": "photos/saintes-maries/05.jpg", "w": 2560, "h": 1707, "exif": ""}, {"src": "photos/saintes-maries/03.jpg", "w": 2560, "h": 1707, "exif": ""}, {"src": "photos/saintes-maries/11.jpg", "w": 2560, "h": 1708, "exif": ""}, {"src": "photos/saintes-maries/09.jpg", "w": 2560, "h": 1707, "exif": ""}, {"src": "photos/saintes-maries/01.jpg", "w": 2560, "h": 1707, "exif": ""}] },
+  { id:"paysages-du-nord", title:"Paysages du nord", place:"Wimereux", years:"Septembre 2026", blurb:"Wimereux, septembre 2026.", text:"",
+    photos:[{"src": "photos/paysages-du-nord/01.jpg", "w": 2560, "h": 1708, "exif": ""}, {"src": "photos/paysages-du-nord/04.jpg", "w": 2560, "h": 1708, "exif": ""}, {"src": "photos/paysages-du-nord/08.jpg", "w": 2560, "h": 1707, "exif": "Leica Q2 · 28 mm · f/8 · 1/1000 s · ISO 400"}, {"src": "photos/paysages-du-nord/05.jpg", "w": 2560, "h": 1708, "exif": "Leica Q2 · 28 mm · f/8 · 1/500 s · ISO 400"}, {"src": "photos/paysages-du-nord/02.jpg", "w": 2560, "h": 1707, "exif": "Leica Q2 · 28 mm · f/8 · 1/1000 s · ISO 400"}, {"src": "photos/paysages-du-nord/06.jpg", "w": 2560, "h": 1708, "exif": ""}] },
+  { id:"maroc", title:"Sur les routes, Marocco", place:"Tanger et Chefchaouen", years:"Novembre 2025", blurb:"", text:"",
+    photos:[{"src": "photos/serie-2/01.jpg", "w": 1706, "h": 2560, "exif": "Leica Q2 · 28 mm · f/8 · 1/500 s · ISO 400"}, {"src": "photos/serie-2/04.jpg", "w": 2560, "h": 1707, "exif": "Leica Q2 · 28 mm · f/5.6 · 1/250 s · ISO 400"}, {"src": "photos/serie-2/05c.jpg", "w": 1707, "h": 2560, "exif": ""}, {"src": "photos/serie-2/06.jpg", "w": 2560, "h": 1708, "exif": "Leica Q2 · 28 mm · f/8 · 1/1000 s · ISO 400"}, {"src": "photos/serie-2/03.jpg", "w": 2560, "h": 1707, "exif": "Leica Q2 · 28 mm · f/7.1 · 1/500 s · ISO 400"}, {"src": "photos/chefchaouen/05.jpg", "w": 2560, "h": 1707, "exif": ""}, {"src": "photos/chefchaouen/04.jpg", "w": 2560, "h": 1707, "exif": ""}, {"src": "photos/chefchaouen/01.jpg", "w": 2560, "h": 1707, "exif": ""}, {"src": "photos/chefchaouen/02.jpg", "w": 2560, "h": 1708, "exif": ""}, {"src": "photos/chefchaouen/03.jpg", "w": 2560, "h": 1707, "exif": ""}] },
+  { id:"londres", title:"Londres", place:"Londres", years:"Mai 2026", blurb:"", text:"",
+    photos:[{"src": "photos/londres/01.jpg", "w": 1707, "h": 2560, "exif": ""}, {"src": "photos/londres/02.jpg", "w": 2560, "h": 1708, "exif": ""}, {"src": "photos/londres/03.jpg", "w": 2560, "h": 1707, "exif": ""}, {"src": "photos/londres/04.jpg", "w": 2560, "h": 1708, "exif": ""}, {"src": "photos/londres/05.jpg", "w": 2560, "h": 1707, "exif": ""}] }
+];
+/* Pour chaque photo : format (paysage, portrait, carré) et légende EXIF — à remplir avec les vraies données. */
+/* Sélection de la page d'accueil : [série, numéro de photo dans la série (0 = première)] */
+const HOME_SELECTION = [["marseille", 5], ["paysages-du-nord", 2], ["saintes-maries", 0], ["marseille", 1], ["paysages-du-nord", 1]];
+const SHAPES = ["landscape","portrait","landscape","square","portrait","landscape","landscape","portrait"];
+const EXIF = ["28 mm · f/5.6 · 1/250 s · ISO 200","28 mm · f/2.8 · 1/60 s · ISO 3200","35 mm · f/8 · 1/500 s · ISO 100","28 mm · f/4 · 1/125 s · ISO 800"];
+
+const PRINTS = [
+  { name:"Petit format", size:"30 × 40 cm", paper:"Papier baryté mat", ed:"Édition de 15", price:"Sur demande" },
+  { name:"Moyen format", size:"50 × 70 cm", paper:"Papier baryté mat", ed:"Édition de 10", price:"Sur demande" },
+  { name:"Grand format", size:"80 × 120 cm", paper:"Papier fine art", ed:"Édition de 5", price:"Sur demande" }
+];
+
+/* ——— Rendu ——— */
+const app = document.getElementById("app");
+const esc = s => String(s).replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const ratio = s => s==="portrait" ? "2/3" : s==="square" ? "1/1" : "3/2";
+
+const count = s => s.photos ? s.photos.length : s.tones.length;
+function photo(s, i, shape){
+  if(s.photos){ const p = s.photos[i % s.photos.length]; return `<div class="ph real" style="aspect-ratio:${p.w}/${p.h}"><img src="${p.src}" width="${p.w}" height="${p.h}" alt="${esc(s.title)}, photo ${i+1}" loading="${i<2?'eager':'lazy'}" decoding="async"></div>`; }
+  const t = s.tones[i % s.tones.length], t2 = s.tones[(i+3) % s.tones.length];
+  const angle = 120 + (i*37)%120;
+  return `<div class="ph" style="aspect-ratio:${ratio(shape)};background:linear-gradient(${angle}deg,${t},${t2} 60%,#0c0c0b)"><span class="tag">Photo ${String(i+1).padStart(2,"0")} · à remplacer</span></div>`;
+}
+
+function home(){
+  return `<section class="view">
+    <div class="index">${SERIES.map(s=>`
+      <a class="card" href="#serie-${s.id}">
+        ${photo(s, s.photos ? (s.cover ?? Math.max(0, s.photos.findIndex(p=>p.w>p.h))) : 0, "landscape")}
+        <h2>${esc(s.title)}</h2>
+      </a>`).join("")}</div>
+  </section>`;
+}
+
+function series(s){
+  const idx = SERIES.indexOf(s), prev = SERIES[(idx-1+SERIES.length)%SERIES.length], next = SERIES[(idx+1)%SERIES.length];
+  let flip = false;
+  const plates = Array.from({length:count(s)},(_,i)=>{
+    const p = s.photos && s.photos[i];
+    const sh = p ? (p.h>p.w*1.05 ? "portrait" : Math.abs(p.h-p.w)<p.w*.05 ? "square" : "landscape") : SHAPES[i % SHAPES.length];
+    let cls = sh; if(sh==="portrait"){ flip=!flip; if(!flip) cls+=" right"; }
+    return `<figure class="plate ${cls}" data-i="${i}" tabindex="0" role="button" aria-label="Agrandir la photo ${i+1}">
+      ${photo(s,i,sh)}${s.numbered ? `
+      <figcaption class="num">Photo ${i+1}</figcaption>` : ''}
+    </figure>`;
+  }).join("");
+  return `<section class="view">
+    <a class="back" href="#series">← Toutes les séries</a>
+    <div class="series-head${s.text ? '' : ' solo'}">
+      <div><h1>${esc(s.title)}</h1><p class="facts"><span>${esc(s.place)}</span><span>${esc(s.years)}</span><span>${count(s)} images</span></p></div>
+      ${s.text ? `<p class="text">${esc(s.text)}</p>` : ''}
+    </div>
+    <div class="plates">${plates}</div>
+    <nav class="series-nav" aria-label="Autres séries">
+      <a href="#serie-${prev.id}"><span>← Série précédente</span>${esc(prev.title)}</a>
+      <a href="#serie-${next.id}" style="text-align:right"><span>Série suivante →</span>${esc(next.title)}</a>
+    </nav>
+  </section>`;
+}
+
+/* Photos à vendre dans l'onglet Tirages : [série, numéro de photo dans la série (0 = première)] */
+const FOR_SALE = [["marseille", 1, "36 × 26 cm, marges blanches comprises · Tirage Epson P20000 sur papier Baryta Hahnemühle 315 g", "60 €"], ["marseille", 5, "36 × 26 cm, marges blanches comprises · Tirage Epson P20000 sur papier Baryta Hahnemühle 315 g", "60 €"], ["paysages-du-nord", 1, "36 × 26 cm, marges blanches comprises · Tirage Epson P20000 sur papier Baryta Hahnemühle 315 g", "60 €"], ["marseille", 4, "20 × 30 cm, marges blanches comprises · Tirage Epson P20000 sur papier Baryta Hahnemühle 315 g", "45 €"], ["marseille", 8, "36 × 26 cm, marges blanches comprises · Tirage Epson P20000 sur papier Baryta Hahnemühle 315 g", "60 €"]];
+function tirages(){
+  const items = FOR_SALE.map(([id,n,spec,price],k)=>{ const s = SERIES.find(x=>x.id===id); return {s, n, spec, price, ref:String(k+1).padStart(2,"0")}; });
+  return `<section class="view">
+    <h1 class="page-title">Tirages</h1>
+    <div class="prints">${items.map(it=>`
+      <figure class="print${it.s.photos[it.n].h > it.s.photos[it.n].w ? ' portrait' : ''}">
+        ${photo(it.s, it.n, "landscape")}
+        <figcaption><span class="ref">Réf. ${it.ref} · ${esc(it.s.place)}, ${esc(it.s.years.toLowerCase())}</span>${it.spec ? `<span class="pspec">${esc(it.spec)}</span>${it.price ? `<span class="price">${esc(it.price)}</span>` : ''}` : ''}</figcaption>
+      </figure>`).join("")}</div>
+    <div class="note"><p class="label">Commander</p>Pour commander un tirage, indiquez par mail la référence de l'image. Délai de fabrication et livraison précisés à la commande. <a href="#contact">Écrire →</a></div>
+  </section>`;
+}
+
+function apropos(){
+  return `<section class="view">
+    <h1 class="page-title">À propos</h1>
+    <div class="two">
+      <div class="ph real" style="aspect-ratio:1179/1765"><img src="photos/portrait.jpg" width="1179" height="1765" alt="Simon Viguié, Leica Q2 en bandoulière, sur les rochers au bord de la mer"></div>
+      <div class="prose">
+        <p class="lead">La photographie est une nécessité pour moi dans ce monde complexe.</p>
+        <p>Elle m'anime, m'engage comme individu dans l'espace public, et m'oblige à poser un regard sur ce qui m'entoure.</p>
+        <p>Je photographie la rue, les villes, les campagnes et ce qui s'y déroule.</p>
+        <p>L'une des composantes de mon travail s'articule autour de l'esthétique : je souhaite remanier la réalité afin d'y sublimer des détails, des scènes du quotidien, des habitudes dans des lieux empruntés par tous, où bien souvent l'œil humain ne s'arrête pas.</p>
+        <p>Je ne cherche pas à me cacher quand je shoote, je suis simplement là avec mon appareil. Je reste discret car pour moi, une bonne photo s'inscrit dans ce moment où les éléments s'alignent à la frontière, où les sujets prennent conscience qu'ils sont pris en photo. Ils se retournent, mais c'est trop tard, le cliché est déjà enregistré.</p>
+        <p>J'aime l'art, j'aime les gens, j'ai besoin de la photographie.</p>
+      </div>
+    </div>
+  </section>`;
+}
+
+function contact(){
+  return `<section class="view">
+    <h1 class="page-title">Contact</h1>
+    <div class="two">
+      <p class="prose lead">Pour un tirage, une commande ou une publication.</p>
+      <div class="contact-lines">
+        <div class="cline"><span class="label">Mail</span><span class="val" id="mail">viguie.simon@gmail.com</span><button class="copy" type="button" data-copy="mail">Copier l'adresse</button></div>
+        <div class="cline"><span class="label">Instagram</span><a class="val" href="https://www.instagram.com/simon.vig/" target="_blank" rel="noopener" style="text-decoration:none">@simon.vig ↗</a></div>
+        <div class="cline"><span class="label">Basé à</span><span class="val">Marseille</span></div>
+      </div>
+    </div>
+  </section>`;
+}
+
+let current = null, slideTimer = null;
+const header = document.querySelector("header.site");
+function setHdr(){ document.documentElement.style.setProperty("--hdr", header.getBoundingClientRect().bottom + "px"); }
+window.addEventListener("resize", setHdr);
+
+function accueil(){
+  const slides = HOME_SELECTION.map(([id,i])=>{ const s = SERIES.find(x=>x.id===id); return { s, p: s.photos[i] }; });
+  return `<section class="slideshow" aria-roledescription="diaporama" aria-label="Sélection de photographies">
+    ${slides.map((d,k)=>`<figure class="slide${k===0?' on':''}" aria-hidden="${k!==0}"><img src="${d.p.src}" alt="${esc(d.s.title)}" ${k<2?'':'loading="lazy"'} decoding="async"></figure>`).join("")}
+    <button class="ss-zone prev" type="button" aria-label="Photo précédente"></button>
+    <button class="ss-zone next" type="button" aria-label="Photo suivante"></button>
+  </section>`;
+}
+function startSlides(){
+  const els = [...app.querySelectorAll(".slide")];
+  let k = 0;
+  const go = n => {
+    els[k].classList.remove("on"); els[k].setAttribute("aria-hidden","true");
+    k = (n + els.length) % els.length;
+    els[k].classList.add("on"); els[k].setAttribute("aria-hidden","false");
+  };
+  const restart = () => { clearInterval(slideTimer); slideTimer = setInterval(()=>go(k+1), 5000); };
+  app.querySelector(".ss-zone.prev").onclick = ()=>{ go(k-1); restart(); };
+  app.querySelector(".ss-zone.next").onclick = ()=>{ go(k+1); restart(); };
+  app._slideKey = e => { if(e.key==="ArrowRight"){ go(k+1); restart(); } else if(e.key==="ArrowLeft"){ go(k-1); restart(); } };
+  go(0); restart();
+}
+document.addEventListener("keydown", e=>{ if(document.body.classList.contains("home") && lb.hidden && app._slideKey) app._slideKey(e); });
+
+function route(){
+  const h = (location.hash || "#accueil").slice(1);
+  clearInterval(slideTimer); app._slideKey = null;
+  let html, nav = h, isHome = false;
+  if(h.startsWith("serie-")){
+    current = SERIES.find(s=>"serie-"+s.id===h) || SERIES[0];
+    html = series(current); nav = "series";
+  } else {
+    current = null;
+    const pages = {series:home, tirages, apropos, contact};
+    if(pages[h]) html = pages[h]();
+    else { html = accueil(); nav = "accueil"; isHome = true; }
+  }
+  document.body.classList.toggle("home", isHome);
+  app.innerHTML = html;
+  document.querySelectorAll("[data-nav]").forEach(a=>{ if(a.dataset.nav===nav) a.setAttribute("aria-current","page"); else a.removeAttribute("aria-current"); });
+  window.scrollTo(0,0);
+  if(isHome){ setHdr(); startSlides(); }
+}
+window.addEventListener("hashchange", route);
+
+/* Copie */
+app.addEventListener("click", e=>{
+  const b = e.target.closest("[data-copy]"); if(!b) return;
+  const el = document.getElementById(b.dataset.copy), txt = el.textContent;
+  const done = () => { b.textContent = "Copié"; setTimeout(()=>b.textContent="Copier l'adresse",1600); };
+  const fallback = () => { const r=document.createRange(); r.selectNodeContents(el); const s=getSelection(); s.removeAllRanges(); s.addRange(r); };
+  if(navigator.clipboard) navigator.clipboard.writeText(txt).then(done, fallback); else fallback();
+});
+
+/* Visionneuse */
+const lb = document.getElementById("lb"), stage = document.getElementById("lb-stage"), cap = document.getElementById("lb-cap");
+let li = 0;
+function show(i){
+  const s = current, n = count(s); li = (i + n) % n;
+  stage.innerHTML = s.photos ? `<img src="${s.photos[li].src}" alt="${esc(s.title)}, photo ${li+1}">` : photo(s, li, SHAPES[li % SHAPES.length]);
+  cap.textContent = `${s.title} · ${String(li+1).padStart(2,"0")} / ${n}`;
+}
+function openLb(i){ show(i); lb.hidden = false; document.body.style.overflow="hidden"; document.getElementById("lb-close").focus(); }
+function closeLb(){ lb.hidden = true; document.body.style.overflow=""; }
+app.addEventListener("click", e=>{ const f = e.target.closest(".plate"); if(f && current) openLb(+f.dataset.i); });
+app.addEventListener("keydown", e=>{ const f = e.target.closest(".plate"); if(f && (e.key==="Enter"||e.key===" ")){ e.preventDefault(); openLb(+f.dataset.i); } });
+document.getElementById("lb-close").onclick = closeLb;
+document.getElementById("lb-prev").onclick = ()=>show(li-1);
+document.getElementById("lb-next").onclick = ()=>show(li+1);
+document.addEventListener("keydown", e=>{
+  if(lb.hidden) return;
+  if(e.key==="Escape") closeLb(); else if(e.key==="ArrowLeft") show(li-1); else if(e.key==="ArrowRight") show(li+1);
+});
+lb.addEventListener("click", e=>{ if(e.target===lb || e.target===stage) closeLb(); });
+
+route();
+</script>
+
+</body>
+</html>
