@@ -87,9 +87,8 @@ body.home main.wrap{max-width:none;padding-inline:0}
 .series-head .text{max-width:60ch;margin:0;font-size:17px}
 .plates{display:flex;flex-direction:column;gap:clamp(48px,8vw,110px)}
 .plate{margin:0;display:flex;flex-direction:column;gap:12px;cursor:zoom-in}
-.plate.portrait{max-width:min(100%,640px)}
-.plate.portrait.right{align-self:flex-end}
-.plate.square{max-width:min(100%,820px);align-self:center}
+/* Chaque photo tient en entier dans la hauteur de l'écran, sous le bandeau */
+.plate{align-self:center;width:min(100%, calc((100vh - 130px) * var(--ar,1.5)));width:min(100%, calc((100svh - 130px) * var(--ar,1.5)))}
 .plate figcaption{display:flex;justify-content:space-between;gap:8px 24px;flex-wrap:wrap;font-family:var(--mono);font-size:11px;letter-spacing:.06em;color:var(--muted)}
 .plate figcaption .n{color:var(--accent)}
 .plate figcaption.num{font-size:15px;font-weight:700;letter-spacing:.04em;color:var(--accent)}
@@ -110,7 +109,7 @@ body.home main.wrap{max-width:none;padding-inline:0}
 .prints{display:grid;grid-template-columns:1fr;align-items:start;row-gap:clamp(56px,8vw,110px)!important;gap:clamp(24px,3vw,40px)}
 .print{display:flex;flex-direction:column;gap:12px}
 .print{margin:0}
-.print.portrait{width:min(100%,760px);justify-self:center}
+.print{--pad:clamp(20px,4vw,64px);justify-self:center;width:min(100%, calc((100vh - 150px - 2*var(--pad)) * var(--ar,1.5) + 2*var(--pad)));width:min(100%, calc((100svh - 150px - 2*var(--pad)) * var(--ar,1.5) + 2*var(--pad)))}
 .print figcaption{display:flex;justify-content:space-between;align-items:baseline;flex-wrap:wrap;gap:4px 24px;margin-top:14px}
 .print h3{font-family:var(--display);font-weight:400;font-size:22px;margin:0}
 .print .pspec{flex-basis:100%;font-family:var(--mono);font-style:italic;font-size:13px;letter-spacing:.02em;color:var(--fg)}
@@ -152,7 +151,7 @@ footer .wrap{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;
 }
 /* Tirages : photo présentée avec un passe-partout blanc, comme un tirage encadré */
 :root{--mat:#ffffff}
-.print .ph.real{padding:clamp(20px,4vw,64px);background:var(--mat);aspect-ratio:auto!important;border:1px solid var(--line);box-shadow:0 12px 28px rgba(20,20,18,.14)}
+.print .ph.real{padding:var(--pad);background:var(--mat);aspect-ratio:auto!important;border:1px solid var(--line);box-shadow:0 12px 28px rgba(20,20,18,.14)}
 .print .ph.real img{height:auto}
 /* Accueil sur fond blanc ; dès qu'on entre dans un onglet, le contenu passe sur fond noir et le bandeau reste blanc */
 body:not(.home){background:#0f0f0e}
@@ -246,7 +245,7 @@ function series(s){
     const p = s.photos && s.photos[i];
     const sh = p ? (p.h>p.w*1.05 ? "portrait" : Math.abs(p.h-p.w)<p.w*.05 ? "square" : "landscape") : SHAPES[i % SHAPES.length];
     let cls = sh; if(sh==="portrait"){ flip=!flip; if(!flip) cls+=" right"; }
-    return `<figure class="plate ${cls}" data-i="${i}" tabindex="0" role="button" aria-label="Agrandir la photo ${i+1}">
+    return `<figure class="plate ${cls}" style="--ar:${p ? (p.w/p.h).toFixed(4) : 1.5}" data-i="${i}" tabindex="0" role="button" aria-label="Agrandir la photo ${i+1}">
       ${photo(s,i,sh)}${s.numbered ? `
       <figcaption class="num">Photo ${i+1}</figcaption>` : ''}
     </figure>`;
@@ -272,7 +271,7 @@ function tirages(){
   return `<section class="view">
     <h1 class="page-title">Tirages</h1>
     <div class="prints">${items.map(it=>`
-      <figure class="print${it.s.photos[it.n].h > it.s.photos[it.n].w ? ' portrait' : ''}">
+      <figure class="print${it.s.photos[it.n].h > it.s.photos[it.n].w ? ' portrait' : ''}" style="--ar:${(it.s.photos[it.n].w/it.s.photos[it.n].h).toFixed(4)}">
         ${photo(it.s, it.n, "landscape")}
         <figcaption><span class="ref">Réf. ${it.ref} · ${esc(it.s.place)}, ${esc(it.s.years.toLowerCase())}</span>${it.spec ? `<span class="pspec">${esc(it.spec)}</span>${it.price ? `<span class="price">${esc(it.price)}</span>` : ''}` : ''}</figcaption>
       </figure>`).join("")}</div>
